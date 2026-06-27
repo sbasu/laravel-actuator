@@ -546,7 +546,7 @@ The MIT License (MIT). Please see [LICENSE](LICENSE) file for more information.
 
 ## About
 
-Built by [Shantanu Basu](https://github.com/sbasu) at [CCS Engineering](https://github.com/sbasu).
+Built by [Shantanu Basu](https://github.com/sbasu).
 
 Inspired by [Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/).
 
