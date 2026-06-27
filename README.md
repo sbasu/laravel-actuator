@@ -1,165 +1,147 @@
 # Laravel Actuator
 
-![GitHub stars](https://img.shields.io/github/stars/sbasu/laravel-actuator?style=flat-square)
-![Packagist Downloads](https://img.shields.io/packagist/dt/sbasu/laravel-actuator?style=flat-square)
-![License](https://img.shields.io/github/license/sbasu/laravel-actuator?style=flat-square)
-![PHP Version](https://img.shields.io/packagist/php-v/sbasu/laravel-actuator?style=flat-square)
+Spring Boot Actuator-like monitoring endpoints for Laravel applications.
 
-Spring Boot Actuator-like monitoring and management endpoints for Laravel applications. Expose health checks, metrics, application info, and environment details through a simple HTTP API — perfect for DevOps, container orchestration, and observability platforms.
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/sbasu/laravel-actuator.svg?style=flat-square)](https://packagist.org/packages/sbasu/laravel-actuator)
+[![License](https://img.shields.io/packagist/l/sbasu/laravel-actuator.svg?style=flat-square)](https://github.com/sbasu/laravel-actuator/blob/main/LICENSE)
+[![PHP Version](https://img.shields.io/badge/php-%5E8.1-blue.svg?style=flat-square)](https://www.php.net/)
+[![Laravel Version](https://img.shields.io/badge/laravel-%5E10.0-brightgreen.svg?style=flat-square)](https://laravel.com)
 
-## Features
+## Overview
 
-- ✅ `/actuator/health` — Aggregated health check with per-component breakdown
-- ✅ `/actuator/metrics` — Runtime metrics (memory, database, request timing)
-- ✅ `/actuator/info` — Application name, version, and environment info
-- ✅ `/actuator/env` — Filtered environment variables (sensitive values masked)
-- ✅ Built-in health indicators: database, disk space, cache, queue
-- ✅ Extensible: add custom health indicators and metrics in seconds
-- ✅ Security-first: sensitive env vars masked, env endpoint disabled by default
-- ✅ Laravel 10 & 11 compatible, PHP 8.1+
-- ✅ Auto-discovery via Composer package extras
+Laravel Actuator provides production-ready HTTP endpoints to monitor and manage your Laravel application. Inspired by [Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/), it brings enterprise-grade monitoring to Laravel.
+
+Get instant visibility into your app's health, performance metrics, and configuration.
+
+## Why Laravel Actuator?
+
+- **Production Ready** — Know your app's health in real-time
+- **Kubernetes Compatible** — Built for container orchestration (liveness/readiness probes)
+- **Zero Configuration** — Works out of the box with sensible defaults
+- **Comprehensive Health Checks** — Database, cache, queue, disk space
+- **Live Metrics** — Memory usage, request timing, database statistics
+- **DevOps Friendly** — Standard endpoints for monitoring systems and dashboards
+- **Spring Boot Compatible** — Familiar if you know Spring Boot Actuator
+
+## Requirements
+
+- **PHP:** 8.1 or higher
+- **Laravel:** 10, 11, 12, or 13+
+- **Composer:** For package installation
 
 ## Installation
 
-  You can install the package via composer:
+### Step 1: Install via Composer
 
-  ```bash
-  composer require sbasu/laravel-actuator
-  ```
-
-  ### Publish Configuration Files
-
-  This is **required** for the package to work:
-
-  ```bash
-  php artisan vendor:publish --tag=actuator-config
-  ```
-
-  This will create a `config/actuator.php` file where you can customize the package behavior.
-
-  ## Usage
-
-  Start your Laravel development server:
-
-  ```bash
-  php artisan serve
-  ```
-
-  Then access the Actuator endpoints:
-
-  ### Health Check
-  ```bash
-  curl http://localhost:8000/actuator/health
-  ```
-
-  Response:
-  ```json
-  {
-    "status": "UP",
-    "components": {
-      "database": { "status": "UP" },
-      "disk_space": { "status": "UP" },
-      "cache": { "status": "UP" },
-      "queue": { "status": "UP" }
-    },
-    "timestamp": "2026-06-27T10:34:14Z"
-  }
-  ```
-
-  ### Available Metrics
-  ```bash
-  curl http://localhost:8000/actuator/metrics
-  ```
-
-  Returns list of available metrics.
-
-  ### Application Info
-  ```bash
-  curl http://localhost:8000/actuator/info
-  ```
-
-  Returns application name, version, environment, etc.
-
-  ## Configuration
-
-  Edit `config/actuator.php` to customize:
-
-  - `path`: URI prefix (default: `actuator`)
-  - `middleware`: Middleware to apply
-  - `indicators`: Enable/disable health indicators
-  - `show_details`: Show detailed health info
-  - `show_env`: Expose environment variables (disabled by default for security)
-## Laravel & PHP Version Support
-
-- **Laravel:** 10, 11, 12, 13+
-- **PHP:** 8.1, 8.2, 8.3+
-
-This package is tested against the latest Laravel versions and receives updates for new releases.
-
-## Endpoints
-
-### Health Check
-
-```
-GET /actuator/health
+```bash
+composer require sbasu/laravel-actuator
 ```
 
-**Response (200 OK — all components healthy):**
+### Step 2: Publish Configuration (Required)
 
+```bash
+php artisan vendor:publish --tag=actuator-config
+```
+
+This creates `config/actuator.php` in your application where you can customize behavior.
+
+### Step 3: Verify Installation
+
+Start your Laravel server:
+
+```bash
+php artisan serve
+```
+
+Test the health endpoint:
+
+```bash
+curl http://localhost:8000/actuator/health
+```
+
+You should see a JSON response with status `"UP"`.
+
+## Usage
+
+Once installed and configured, your Laravel app automatically has monitoring endpoints available.
+
+### 1. Health Check Endpoint
+
+Check if your application and all dependencies are healthy.
+
+**Request:**
+```bash
+curl http://localhost:8000/actuator/health
+```
+
+**Response:**
 ```json
 {
   "status": "UP",
   "components": {
     "database": {
       "status": "UP",
-      "timestamp": "2026-06-27T14:30:45Z",
+      "timestamp": "2026-06-27T10:34:14Z",
       "details": {
-        "database": "myapp",
-        "driver": "mysql",
-        "host": "127.0.0.1",
+        "database": "mysql",
+        "driver": "sqlite",
+        "host": "localhost",
         "connection": "connected"
       }
     },
     "disk_space": {
       "status": "UP",
-      "timestamp": "2026-06-27T14:30:45Z",
+      "timestamp": "2026-06-27T10:34:14Z",
       "details": {
-        "free_bytes": 53687091200,
-        "total_bytes": 107374182400,
-        "percentage_used": 50.0,
-        "free": "50 GB",
-        "total": "100 GB"
+        "free_bytes": 84775305216,
+        "total_bytes": 881433005216,
+        "used_bytes": 2659151872,
+        "percentage_used": 3.04,
+        "free": "78.95 GB",
+        "total": "881.43 GB",
+        "path": "/"
       }
     },
     "cache": {
       "status": "UP",
-      "timestamp": "2026-06-27T14:30:45Z",
+      "timestamp": "2026-06-27T10:34:14Z",
       "details": {
-        "driver": "redis",
+        "driver": "database",
         "accessible": true
       }
     },
     "queue": {
       "status": "UP",
-      "timestamp": "2026-06-27T14:30:45Z",
+      "timestamp": "2026-06-27T10:34:14Z",
       "details": {
-        "driver": "redis",
+        "driver": "database",
         "connected": true
       }
     }
   },
-  "timestamp": "2026-06-27T14:30:45Z"
+  "timestamp": "2026-06-27T10:34:14Z"
 }
 ```
 
-Returns **HTTP 503** when any component reports `DOWN`.
+**Use Cases:**
+- Kubernetes liveness probes (restart unhealthy pods)
+- Kubernetes readiness probes (route traffic only to ready pods)
+- Load balancer health checks
+- Monitoring dashboards
+- CI/CD deployment verification
 
-### Metrics
+---
 
+### 2. Metrics Endpoint
+
+List available performance metrics and monitoring data.
+
+**Request:**
+```bash
+curl http://localhost:8000/actuator/metrics
 ```
-GET /actuator/metrics
-```
 
+**Response:**
 ```json
 {
   "names": [
@@ -170,36 +152,32 @@ GET /actuator/metrics
 }
 ```
 
-```
-GET /actuator/metrics/memory
+**Use Cases:**
+- Integration with Prometheus/Grafana
+- Performance monitoring
+- Identifying bottlenecks
+- Tracking resource usage
+
+---
+
+### 3. Application Info Endpoint
+
+Get metadata about your application.
+
+**Request:**
+```bash
+curl http://localhost:8000/actuator/info
 ```
 
-```json
-{
-  "name": "memory",
-  "measurements": [
-    { "statistic": "usage_bytes", "value": 8388608, "human": "8 MB" },
-    { "statistic": "peak_bytes",  "value": 10485760, "human": "10 MB" },
-    { "statistic": "limit_bytes", "value": 134217728, "human": "128 MB" },
-    { "statistic": "usage_percent", "value": 6.25 }
-  ],
-  "base_unit": "bytes"
-}
-```
-
-### Application Info
-
-```
-GET /actuator/info
-```
-
+**Response:**
 ```json
 {
   "app": {
-    "name": "My Laravel App",
-    "version": "2.1.0",
-    "environment": "staging",
-    "debug": false
+    "name": "Laravel",
+    "version": "1.0.0",
+    "description": "",
+    "environment": "local",
+    "debug": true
   },
   "actuator": {
     "version": "1.0.0",
@@ -208,178 +186,368 @@ GET /actuator/info
 }
 ```
 
-> The `environment` and `debug` fields are hidden in production.
+**Use Cases:**
+- Verify deployment version
+- Check environment configuration
+- CI/CD pipeline information
+- Application identification
 
-### Environment Variables
+---
 
+### 4. Environment Variables Endpoint
+
+View environment configuration. **Disabled by default for security.**
+
+#### Enabling the Endpoint
+
+Follow these steps to enable (development environments only):
+
+**Step 1:** Open your `.env` file
+
+```bash
+# macOS/Linux
+nano .env
+
+# Windows
+notepad .env
 ```
-GET /actuator/env
+
+**Step 2:** Add this line
+
+ACTUATOR_SHOW_ENV=true
+
+**Step 3:** Restart your server
+
+```bash
+php artisan serve
 ```
 
-Disabled by default. Enable in config: `actuator.show_env = true`.
+**Step 4:** Test the endpoint
+
+```bash
+curl http://localhost:8000/actuator/env
+```
+
+#### Example Response
 
 ```json
 {
-  "activeProfiles": ["production"],
-  "propertySources": [
-    {
-      "name": "systemEnvironment",
-      "properties": {
-        "APP_NAME": "My Laravel App",
-        "APP_ENV": "production",
-        "DB_PASSWORD": "******",
-        "APP_KEY": "******"
-      }
-    }
-  ]
+  "APP_NAME": "Laravel",
+  "APP_ENV": "local",
+  "APP_DEBUG": "true",
+  "APP_URL": "http://localhost:8000",
+  "DB_CONNECTION": "sqlite",
+  "DB_DATABASE": "/full/path/to/database.sqlite",
+  ...
 }
 ```
 
-Sensitive variables containing `PASSWORD`, `KEY`, `SECRET`, `TOKEN`, `PRIVATE`, `CREDENTIAL`, `AUTH`, `PASS`, or `PWD` are automatically masked.
+#### ⚠️ Security Warning
 
-## Health Indicators
+**NEVER enable this endpoint in production!**
 
-| Indicator | Config Key | What It Checks |
-|-----------|-----------|----------------|
-| `DatabaseHealthIndicator` | `indicators.database` | PDO connection to the default DB |
-| `DiskSpaceHealthIndicator` | `indicators.disk_space` | Free disk space (DOWN if >85% used) |
-| `CacheHealthIndicator` | `indicators.cache` | Cache read/write test |
-| `QueueHealthIndicator` | `indicators.queue` | Queue connection availability |
+Environment variables may contain:
+- Database passwords
+- API keys
+- Encryption keys
+- OAuth tokens
+- Third-party service credentials
 
-## Available Metrics
+**Only enable in development environments.**
 
-| Metric | Endpoint | Measurements |
-|--------|----------|-------------|
-| `memory` | `/actuator/metrics/memory` | usage, peak, limit, usage % |
-| `request` | `/actuator/metrics/request` | duration ms, start time, current time |
-| `database` | `/actuator/metrics/database` | driver, host, database, query count |
-
-## Custom Health Indicator
-
-Implement the `HealthIndicator` contract:
-
-```php
-use Sbasu\LaravelActuator\Contracts\HealthIndicator;
-use Sbasu\LaravelActuator\HealthStatus;
-
-class RedisHealthIndicator implements HealthIndicator
-{
-    public function name(): string
-    {
-        return 'redis';
-    }
-
-    public function check(): HealthStatus
-    {
-        try {
-            \Illuminate\Support\Facades\Redis::ping();
-
-            return HealthStatus::up()
-                ->withDetail('connected', true);
-        } catch (\Throwable $e) {
-            return HealthStatus::down()
-                ->withDetail('connected', false)
-                ->withDetail('error', $e->getMessage());
-        }
-    }
-}
-```
-
-Register it in a service provider:
-
-```php
-use Sbasu\LaravelActuator\Actuator;
-
-public function boot(): void
-{
-    $this->app->make(Actuator::class)
-        ->registerHealthIndicator(RedisHealthIndicator::class);
-}
-```
-
-Or via the facade:
-
-```php
-use Sbasu\LaravelActuator\Facades\Actuator;
-
-Actuator::registerHealthIndicator(RedisHealthIndicator::class);
-```
+---
 
 ## Configuration
 
-```php
-// config/actuator.php
-return [
-    'path'       => env('ACTUATOR_PATH', 'actuator'), // URI prefix
-    'middleware' => ['api'],                           // Route middleware
+Edit `config/actuator.php` to customize the package behavior:
 
+```php
+return [
+    // URI prefix for all endpoints
+    'path' => env('ACTUATOR_PATH', 'actuator'),
+
+    // Middleware applied to actuator endpoints
+    'middleware' => ['api'],
+
+    // Enable/disable individual health indicators
     'indicators' => [
-        'database'   => true,
+        'database' => true,
         'disk_space' => true,
-        'cache'      => true,
-        'queue'      => true,
+        'cache' => true,
+        'queue' => true,
     ],
 
+    // Metrics collection settings
     'metrics' => [
-        'enabled'     => true,
+        'enabled' => true,
         'sample_rate' => 1.0,
     ],
 
-    'show_details' => true,  // Include component details in /health response
-    'show_env'     => false, // Enable /env endpoint (keep false in production)
-    'log_access'   => false, // Log each actuator request
+    // Show detailed health information in responses
+    'show_details' => true,
 
-    'max_request_history' => 100,
+    // Show environment variables (disabled by default for security)
+    'show_env' => env('ACTUATOR_SHOW_ENV', false),
+
+    // Log all actuator requests
+    'log_access' => false,
 ];
 ```
 
-## Comparison with Spring Boot Actuator
+### Configuration Options
 
-| Feature | Spring Boot Actuator | Laravel Actuator |
-|---------|---------------------|-----------------|
-| Health endpoint | `/actuator/health` | `/actuator/health` |
-| Metrics endpoint | `/actuator/metrics` | `/actuator/metrics` |
-| Info endpoint | `/actuator/info` | `/actuator/info` |
-| Env endpoint | `/actuator/env` | `/actuator/env` |
-| Custom indicators | `HealthIndicator` interface | `HealthIndicator` interface |
-| Auto-registration | `@Component` | Service provider |
-| Sensitive masking | Yes | Yes |
-| HTTP status on DOWN | 503 | 503 |
-| Component breakdown | Yes | Yes |
+| Option | Default | Purpose |
+|--------|---------|---------|
+| `path` | `actuator` | URI prefix for endpoints |
+| `middleware` | `['api']` | Middleware to apply |
+| `indicators.database` | `true` | Enable database health check |
+| `indicators.disk_space` | `true` | Enable disk space check |
+| `indicators.cache` | `true` | Enable cache health check |
+| `indicators.queue` | `true` | Enable queue health check |
+| `show_details` | `true` | Show detailed health info |
+| `show_env` | `false` | Enable environment endpoint |
+| `log_access` | `false` | Log endpoint requests |
 
-## Security Considerations
+---
 
-- The `/env` endpoint is **disabled by default**. Never enable it in production.
-- Sensitive environment variables are always masked, even when the endpoint is enabled.
-- Add authentication middleware to protect actuator endpoints in production:
+## Real-World Examples
 
-```php
-// config/actuator.php
-'middleware' => ['api', 'auth:sanctum'],
+### Kubernetes Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-app
+spec:
+  template:
+    spec:
+      containers:
+      - name: app
+        image: laravel-app:latest
+        ports:
+        - containerPort: 8000
+        
+        # Check if pod is alive
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        # Check if pod is ready for traffic
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
 ```
 
-- Or restrict by IP using middleware:
+### Docker Health Check
 
-```php
-'middleware' => ['api', 'restrict-to-internal-network'],
+```dockerfile
+FROM php:8.3-cli
+
+COPY . /app
+WORKDIR /app
+
+RUN composer install
+
+# Health check every 30s
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:8000/actuator/health || exit 1
+
+CMD ["php", "artisan", "serve", "--host=0.0.0.0"]
 ```
+
+### Prometheus Monitoring
+
+```yaml
+# prometheus.yml
+scrape_configs:
+  - job_name: 'laravel-app'
+    metrics_path: '/actuator/metrics'
+    static_configs:
+      - targets: ['localhost:8000']
+    scrape_interval: 30s
+```
+
+### Load Balancer Health Check (Nginx)
+
+```nginx
+upstream laravel {
+    server laravel-app-1:8000;
+    server laravel-app-2:8000;
+    server laravel-app-3:8000;
+    
+    # Check health regularly
+    check interval=3000 rise=2 fall=5 timeout=1000 type=http;
+    check_http_send "GET /actuator/health HTTP/1.0\r\n\r\n";
+    check_http_expect_alive http_2xx;
+}
+
+server {
+    listen 80;
+    server_name api.example.com;
+    
+    location / {
+        proxy_pass http://laravel;
+    }
+}
+```
+
+---
+
+## Endpoints Reference
+
+| Endpoint | Method | Purpose | Returns | Status |
+|----------|--------|---------|---------|--------|
+| `/actuator/health` | GET | Application health | JSON with status | 200/503 |
+| `/actuator/metrics` | GET | Available metrics | JSON array | 200 |
+| `/actuator/info` | GET | App information | JSON metadata | 200 |
+| `/actuator/env` | GET | Environment variables | JSON config | 200/403 |
+
+---
+
+## Security Best Practices
+
+### Health Endpoints
+
+- ✅ Public by default (no authentication required)
+- ✅ No sensitive data exposed
+- ✅ Safe to expose to monitoring systems
+- ✅ Include in Kubernetes probes
+
+### Environment Endpoint
+
+- ⚠️ **Disabled by default** for security
+- ⚠️ Only enable in development environments
+- ⚠️ Never enable in production
+- ⚠️ Can expose sensitive configuration
+
+### Protecting Endpoints
+
+If you want authentication on actuator endpoints, edit `config/actuator.php`:
+
+**Option 1: Require API Authentication**
+```php
+'middleware' => ['api', 'auth:api'],
+```
+
+**Option 2: Rate Limiting**
+```php
+'middleware' => ['api', 'throttle:60,1'],
+```
+
+**Option 3: Custom Middleware**
+```php
+'middleware' => ['api', App\Http\Middleware\ActuatorAuth::class],
+```
+
+---
+
+## Troubleshooting
+
+### Endpoints Return 404
+
+**Problem:** Getting "Route not found" when accessing endpoints
+
+**Solution:** You must publish the configuration first
+
+```bash
+php artisan vendor:publish --tag=actuator-config
+```
+
+Then restart your server.
+
+---
+
+### Config File Not Found
+
+**Problem:** `config/actuator.php` doesn't exist
+
+**Solution:** Run the publish command
+
+```bash
+php artisan vendor:publish --tag=actuator-config
+```
+
+---
+
+### Database Shows DOWN
+
+**Problem:** Health check returns database status as DOWN
+
+**Solution:** Check your database connection
+
+```bash
+# Check .env file
+cat .env | grep DB_
+
+# Test database connection
+php artisan tinker
+>>> DB::connection()->getPdo();
+```
+
+---
+
+### Cannot Enable /env Endpoint
+
+**Problem:** Still get 403 when `ACTUATOR_SHOW_ENV=true`
+
+**Solution:** Restart your server after editing `.env`
+
+```bash
+# Stop and restart
+php artisan serve
+```
+
+---
+
+## Roadmap
+
+This is the first in a series of Spring Boot → Laravel packages bringing enterprise patterns to Laravel:
+
+- ✅ **Laravel Actuator** v1.0 — Health checks & monitoring
+- 🔄 **Laravel Profiles** — Environment-specific configuration
+- 🔄 **Laravel Repository** — Data access abstraction layer
+- 🔄 **Laravel Events** — Advanced event bus
+- 🔄 **Laravel Scheduler** — Improved task scheduling
+
+Follow [@sbasu](https://github.com/sbasu) on GitHub for updates.
+
+---
+
+## Support
+
+- **Issues:** [github.com/sbasu/laravel-actuator/issues](https://github.com/sbasu/laravel-actuator/issues)
+- **Discussions:** [github.com/sbasu/laravel-actuator/discussions](https://github.com/sbasu/laravel-actuator/discussions)
+- **GitHub:** [github.com/sbasu/laravel-actuator](https://github.com/sbasu/laravel-actuator)
+
+---
 
 ## Contributing
 
-Contributions are welcome! Please:
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Write tests for new functionality
-4. Ensure all tests pass: `./vendor/bin/phpunit`
-5. Submit a pull request
-
-Please follow PSR-12 coding standards.
+---
 
 ## License
 
-The MIT License (MIT). See [LICENSE](LICENSE) for details.
+The MIT License (MIT). Please see [LICENSE](LICENSE) file for more information.
 
-## Author
+---
 
-**Sbasu** — [github.com/sbasu](https://github.com/sbasu) — shantanubasu123@gmail.com
+## About
+
+Built by [Shantanu Basu](https://github.com/sbasu) at [CCS Engineering](https://github.com/sbasu).
+
+Inspired by [Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/).
+
+Made with ❤️ for the Laravel community.
