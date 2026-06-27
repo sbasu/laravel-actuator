@@ -508,6 +508,26 @@ php artisan tinker
 php artisan serve
 ```
 
+
+```
+## Reporting Issues
+
+Found a bug or have a suggestion?
+
+- **🐛 Report Bugs:** [GitHub Issues](https://github.com/sbasu/laravel-actuator/issues/new?template=bug_report.md)
+- **✨ Request Features:** [GitHub Issues](https://github.com/sbasu/laravel-actuator/issues/new?template=feature_request.md)
+- **💬 Ask Questions:** [GitHub Discussions](https://github.com/sbasu/laravel-actuator/discussions)
+
+Please include details like:
+- Laravel and PHP version
+- Steps to reproduce
+- Expected vs actual behavior
+- Error messages or logs
+
+The more information you provide, the faster we can help!
+```
+
+
 ---
 
 ## Roadmap
