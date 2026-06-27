@@ -1,92 +1,39 @@
-\---
-
+﻿---
 name: Bug report
-
 about: Report a bug to help us improve
-
-title: '\[BUG] '
-
+title: '[BUG] '
 labels: 'bug'
-
 assignees: ''
+---
 
-\---
-
-
-
-\## Description
-
+## Description
 A clear and concise description of what the bug is.
 
-
-
-\## Steps to Reproduce
-
+## Steps to Reproduce
 Steps to reproduce the behavior:
+1. Go to '...'
+2. Run '...'
+3. See error
 
-1\. Go to '...'
-
-2\. Run '...'
-
-3\. See error
-
-
-
-\## Expected Behavior
-
+## Expected Behavior
 A clear and concise description of what you expected to happen.
 
-
-
-\## Actual Behavior
-
+## Actual Behavior
 What actually happens instead.
 
+## Environment
+- **Laravel version:** (e.g., 11.0)
+- **PHP version:** (e.g., 8.2)
+- **Laravel Actuator version:** (e.g., 1.0.4)
+- **Database:** (e.g., MySQL 8.0, PostgreSQL 14, SQLite)
+- **OS:** (e.g., Ubuntu 20.04, Windows 11, macOS)
 
-
-\## Environment
-
-\- \*\*Laravel version:\*\* (e.g., 11.0)
-
-\- \*\*PHP version:\*\* (e.g., 8.2)
-
-\- \*\*Laravel Actuator version:\*\* (e.g., 1.0.4)
-
-\- \*\*Database:\*\* (e.g., MySQL 8.0, PostgreSQL 14, SQLite)
-
-\- \*\*OS:\*\* (e.g., Ubuntu 20.04, Windows 11, macOS)
-
-
-
-\## Error Message / Logs
-
+## Error Message / Logs
 If applicable, paste the error message or logs:
 
-\[Paste error/logs here]
+\\\
+[Paste error/logs here]
+\\\
 
-
-
-\## Configuration
-
-If relevant, share your `config/actuator.php` (redact sensitive values):
-
-
-
-```php
-
-\[Paste config here]
-
-```
-
-
-
-\## Additional Context
-
+## Additional Context
 Add any other context about the problem here.
-
-
-
-\---
-
-\*\*Thank you for reporting this issue!\*\* 🙏
-
