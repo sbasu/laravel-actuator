@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Discussions
+    url: https://github.com/sbasu/laravel-actuator/discussions
+    about: Ask questions and discuss ideas here
+  - name: Documentation
+    url: https://github.com/sbasu/laravel-actuator#readme
+    about: Check the README for documentation
