@@ -32,6 +32,12 @@ To publish the configuration file:
 ```bash
 php artisan vendor:publish --tag=actuator-config
 ```
+## Laravel & PHP Version Support
+
+- **Laravel:** 10, 11, 12, 13+
+- **PHP:** 8.1, 8.2, 8.3+
+
+This package is tested against the latest Laravel versions and receives updates for new releases.
 
 ## Endpoints
 
