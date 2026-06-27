@@ -1,0 +1,64 @@
+{
+    "name": "sbasu/laravel-actuator",
+    "description": "Spring Boot Actuator-like monitoring and management for Laravel applications",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sbasu",
+            "email": "shantanubasu123@gmail.com",
+            "homepage": "https://github.com/sbasu"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0|^11.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "orchestra/testbench": "^8.0|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sbasu\\LaravelActuator\\": "src/"
+        },
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sbasu\\LaravelActuator\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sbasu\\LaravelActuator\\ActuatorServiceProvider"
+            ],
+            "aliases": {
+                "Actuator": "Sbasu\\LaravelActuator\\Facades\\Actuator"
+            }
+        }
+    },
+    "keywords": [
+        "laravel",
+        "monitoring",
+        "actuator",
+        "health-check",
+        "metrics",
+        "spring-boot",
+        "devops"
+    ],
+    "homepage": "https://github.com/sbasu/laravel-actuator",
+    "support": {
+        "issues": "https://github.com/sbasu/laravel-actuator/issues",
+        "source": "https://github.com/sbasu/laravel-actuator"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {}
+    }
+}
