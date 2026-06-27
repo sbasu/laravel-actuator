@@ -21,17 +21,74 @@ Spring Boot Actuator-like monitoring and management endpoints for Laravel applic
 
 ## Installation
 
-```bash
-composer require sbasu/laravel-actuator
-```
+  You can install the package via composer:
 
-The service provider is auto-discovered. No manual registration needed.
+  ```bash
+  composer require sbasu/laravel-actuator
+  ```
 
-To publish the configuration file:
+  ### Publish Configuration Files
 
-```bash
-php artisan vendor:publish --tag=actuator-config
-```
+  This is **required** for the package to work:
+
+  ```bash
+  php artisan vendor:publish --tag=actuator-config
+  ```
+
+  This will create a `config/actuator.php` file where you can customize the package behavior.
+
+  ## Usage
+
+  Start your Laravel development server:
+
+  ```bash
+  php artisan serve
+  ```
+
+  Then access the Actuator endpoints:
+
+  ### Health Check
+  ```bash
+  curl http://localhost:8000/actuator/health
+  ```
+
+  Response:
+  ```json
+  {
+    "status": "UP",
+    "components": {
+      "database": { "status": "UP" },
+      "disk_space": { "status": "UP" },
+      "cache": { "status": "UP" },
+      "queue": { "status": "UP" }
+    },
+    "timestamp": "2026-06-27T10:34:14Z"
+  }
+  ```
+
+  ### Available Metrics
+  ```bash
+  curl http://localhost:8000/actuator/metrics
+  ```
+
+  Returns list of available metrics.
+
+  ### Application Info
+  ```bash
+  curl http://localhost:8000/actuator/info
+  ```
+
+  Returns application name, version, environment, etc.
+
+  ## Configuration
+
+  Edit `config/actuator.php` to customize:
+
+  - `path`: URI prefix (default: `actuator`)
+  - `middleware`: Middleware to apply
+  - `indicators`: Enable/disable health indicators
+  - `show_details`: Show detailed health info
+  - `show_env`: Expose environment variables (disabled by default for security)
 ## Laravel & PHP Version Support
 
 - **Laravel:** 10, 11, 12, 13+
